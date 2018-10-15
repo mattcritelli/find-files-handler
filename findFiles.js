@@ -57,7 +57,7 @@ function createCustomRules(optionsArray, floorNum){
         })
       }
     } else if (count >= 1){
-      console.log('\noption count 2+:', option)
+      // console.log('\noption count 2+:', option)
       const conditionalIndices = multiConditionHandler.findIndexOfEachConditional(option)
       const sortedConditionals = multiConditionHandler.sortMultiConditionIntoArrays(conditionalIndices, option)
       const ruleToAdd = multiConditionHandler.formatMultiCustomRule(sortedConditionals, floorNum, option)
@@ -113,14 +113,16 @@ function sanitizeWhitelist(customRules, initialList){
 
 
 // ARBOR HOME DIRECTORIES
-const directory = 'Arbor/Bradford(868)/199_868'
+// const directory = 'Arbor/Bradford(868)/199_868'
 // const directory = 'Arbor/Chestnut(869)/199_869'
 // const directory = 'Arbor/199_864-Cottonwood'
 // const directory = 'Arbor/199_872-Aspen/199_872'
+// const directory = 'Arbor/199_867-Ashton'
 // const directory = 'Arbor/Magnolia(880)'
 // const directory = 'Arbor/Cooper(7448)'
 // const directory = 'Arbor/Mulberry(874)'
 // const directory = 'Arbor/Empress(877)'
+const directory = 'Arbor/Norway(875)'
 
 
 /* Extract all file names from individual floor option folders */
@@ -151,6 +153,7 @@ const customRulesFloorTwo = createCustomRules(floor_2, 2)
 // console.log('all Custom Rules:', util.inspect(customRulesFloorOne, {showHidden: false, depth: null}))
 // console.log('all Custom Rules:', util.inspect(customRulesFloorZero.concat(customRulesFloorOne).concat(customRulesFloorTwo), {showHidden: false, depth: null}))
 console.log('all Custom Rules:', util.inspect(customRulesFloorOne.concat(customRulesFloorTwo), {showHidden: false, depth: null}))
+// console.log('all Custom Rules:', util.inspect(customRulesFloorOne.concat(customRulesFloorTwo).concat(customRulesFloorThree), {showHidden: false, depth: null}))
 
 
 /* Create non-duplicate list of all possible options */

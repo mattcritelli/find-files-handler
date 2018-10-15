@@ -97,7 +97,7 @@ function sortMultiConditionIntoArrays(objectWithConditionalIndices, filename) {
 }
 
 function formatMultiCustomRule(result, floorNum, originalFilename){
-  console.log('result:\n', result)
+  // console.log('result:\n', result)
   const output = {
     altHref: originalFilename,
     floor: floorNum,
