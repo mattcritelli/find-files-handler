@@ -1,6 +1,8 @@
 const util = require('util')
 
 // Determine number of conditionals in filename
+
+
 function conditionalCount(filename){
   const conditionals = [' or ', ' and not ', ' and ', ' join ']
   let count = 0;

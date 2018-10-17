@@ -21,43 +21,7 @@ function createCustomRules(optionsArray, floorNum){
   optionsArray.forEach(option => {
     let count = multiConditionHandler.conditionalCount(option)
 
-    if(count === 9){
-      console.log('\noption count 1:', option)
-      if(option.includes(' and not ')){
-        const optArr = option.split(' and not ')
-        primaryOutput.push({
-          hrefs: option.split(' and not '),
-          altHref: option,
-          replaceHref: optArr[0],
-          floor: floorNum,
-          ruleType: 'andNot'
-        })
-      } else if(option.includes(' and ')){
-        const optArr = option.split(' and ')
-        primaryOutput.push({
-          hrefs: optArr,
-          altHref: option,
-          replaceHref: optArr[0],
-          floor: floorNum,
-          ruleType: 'and'
-        })
-      } else if(option.includes(' or ')){
-        primaryOutput.push({
-          hrefs: option.split(' or '),
-          altHref: option,
-          floor: floorNum,
-          ruleType: 'or'
-        })
-      } else if(option.includes(' join ')){
-        joinRules.push({
-          hrefs: option.split(' join '),
-          altHref: option,
-          floor: floorNum,
-          ruleType: 'join'
-        })
-      }
-    } else if (count >= 1){
-      // console.log('\noption count 2+:', option)
+    if (count >= 1){
       const conditionalIndices = multiConditionHandler.findIndexOfEachConditional(option)
       const sortedConditionals = multiConditionHandler.sortMultiConditionIntoArrays(conditionalIndices, option)
       const ruleToAdd = multiConditionHandler.formatMultiCustomRule(sortedConditionals, floorNum, option)
@@ -108,8 +72,11 @@ function sanitizeWhitelist(customRules, initialList){
 //////////////////////////////////////////////////////////////////////
 
 // OAKWOOD DIRECTORIES
+// const directory = 'Oakwood/167_2321/167_2321'
 // const directory = 'Oakwood/167_2322v2'
 // const directory = 'Oakwood/167_2323/167_2323v2Rev'
+// const directory = 'Oakwood/167_2324/167_2324'
+// const directory = 'Oakwood/167_2325/167_2325'
 
 
 // ARBOR HOME DIRECTORIES
@@ -122,7 +89,9 @@ function sanitizeWhitelist(customRules, initialList){
 // const directory = 'Arbor/Cooper(7448)'
 // const directory = 'Arbor/Mulberry(874)'
 // const directory = 'Arbor/Empress(877)'
-const directory = 'Arbor/Norway(875)'
+// const directory = 'Arbor/Norway(875)'
+const directory = 'Arbor/Spruce(873)'
+// const directory = 'Arbor/Walnut(870)'
 
 
 /* Extract all file names from individual floor option folders */
@@ -131,10 +100,10 @@ const directory = 'Arbor/Norway(875)'
 // console.log('floor_0 options:', floor_0)
 //
 let floor_1 = findFileNames(`../${directory}/floor_1`)
-console.log('floor_1 options:', floor_1)
+// console.log('floor_1 options:', floor_1)
 // //
 let floor_2 = findFileNames(`../${directory}/floor_2`)
-console.log('floor_2 options:', floor_2)
+// console.log('floor_2 options:', floor_2)
 //
 // let floor_3 = findFileNames(`../${directory}/floor_3`)
 // console.log('floor_3 options:', floor_3)
@@ -151,7 +120,7 @@ const customRulesFloorTwo = createCustomRules(floor_2, 2)
 // console.log('customRulesFloorTwo:', customRulesFloorTwo)
 // console.log('customRulesFloorThree:', customRulesFloorThree)
 // console.log('all Custom Rules:', util.inspect(customRulesFloorOne, {showHidden: false, depth: null}))
-// console.log('all Custom Rules:', util.inspect(customRulesFloorZero.concat(customRulesFloorOne).concat(customRulesFloorTwo), {showHidden: false, depth: null}))
+// console.log('all Custom Rules:', util.inspect(customRulesFloorZero.concat(customRulesFloorOne).concat(customRulesFloorTwo).concat(customRulesFloorThree), {showHidden: false, depth: null}))
 console.log('all Custom Rules:', util.inspect(customRulesFloorOne.concat(customRulesFloorTwo), {showHidden: false, depth: null}))
 // console.log('all Custom Rules:', util.inspect(customRulesFloorOne.concat(customRulesFloorTwo).concat(customRulesFloorThree), {showHidden: false, depth: null}))
 
@@ -167,4 +136,4 @@ const whitelistOutputFloorTwo = sanitizeWhitelist(customRulesFloorTwo, floor_2)
 // console.log('floor_0:', whitelistOutputFloorZero)
 console.log('floor_1:', whitelistOutputFloorOne)
 console.log('floor_2:', whitelistOutputFloorTwo)
-// console.log('whitelistOutputFloorThree:', whitelistOutputFloorThree)
+// console.log('floor_3:', whitelistOutputFloorThree)
