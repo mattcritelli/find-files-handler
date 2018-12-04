@@ -8,60 +8,55 @@ const multiConditionHandler = require('./multiConditionHandler');
 function findFileNames(dirName){
   // directory below may need to be modified slightly depending on folder structure
   return fs.readdirSync(`${dirName}`)
-           .map(filename => filename.replace(/-01.svg/, '').toLowerCase());
+           .map(filename => filename.replace(/-01.svg/, '')
+           .toLowerCase())
+           .filter(fn => fn !== '.ds_store');
 }
 
 /* Automatically create custom rule objects */
-function createCustomRules(optionsArray, floorNum){
-  const conditionals = [' and not ', ' and ', ' join ', ' or '] // 'and not' must come before 'and' to properly sort
-  const primaryOutput = [];
-  const joinRules = [];
+function createCustomRules(filenameList, floorNum){
   const multiRules = []
 
-  optionsArray.forEach(option => {
-    let count = multiConditionHandler.conditionalCount(option)
+  filenameList.forEach(filename => {
+    let count = multiConditionHandler.conditionalCount(filename)
 
     if (count >= 1){
-      const conditionalIndices = multiConditionHandler.findIndexOfEachConditional(option)
-      const sortedConditionals = multiConditionHandler.sortMultiConditionIntoArrays(conditionalIndices, option)
-      const ruleToAdd = multiConditionHandler.formatMultiCustomRule(sortedConditionals, floorNum, option)
+      const conditionalIndices = multiConditionHandler.findIndexOfEachConditional(filename)
+      const sortedConditionals = multiConditionHandler.sortMultiConditionIntoArrays(conditionalIndices, filename)
+      const ruleToAdd = multiConditionHandler.formatMultiCustomRule(sortedConditionals, floorNum, filename)
       multiRules.push(ruleToAdd)
     }
   })
-  return primaryOutput.concat(joinRules).concat(multiRules)
+  return multiRules;
 }
 
 /* Create non-duplicate list of all possible options */
 function sanitizeWhitelist(customRules, initialList){
-  initialList = initialList.filter(opt => opt !== '.ds_store')
   const aggregateOptions = []
   const output = []
 
   customRules.forEach(rule => {
-    // remove all conditional filenames from initial list
+    // Filter altHref's (conditional filenames from initialList)
     // i.e. 'dvgslstcorn or woodlstcorn or eleclstcorn' would be removed
-    const optIndex = initialList.indexOf(rule.altHref)
-    if(optIndex >= 0){
-      initialList.splice(optIndex, 1)
-    }
+    initialList = initialList.filter(filename => filename !== rule.altHref)
 
-    if(rule.ruleType !== 'multi'){
-      // add individual options in conditional filename to aggregateOptions
-      // i.e. [ 'dvgslstcorn', 'woodlstcorn', 'eleclstcorn' ]
-      rule.hrefs.forEach(opt => aggregateOptions.push(opt))
-    } else {
-      Object.keys(rule.multiGroup).forEach(group => {
-        rule.multiGroup[group].forEach(opt => aggregateOptions.push(opt))
-      })
-    }
+    // Iterate through each Custom Rule multigroup and push each individual option into aggregateOptions
+    Object.keys(rule.multiGroup).forEach(group => {
+      rule.multiGroup[group].forEach(opt => aggregateOptions.push(opt))
+    })
   })
 
-  // Remove all duplicates by checking output array before adding
+  // For each option in aggregateOptions, check to see if output array already includes the option
+  // --> If it does not, then add option to output array
+  // console.log('aggregateOptions', aggregateOptions)
   aggregateOptions.forEach(opt => {
     if(!output.includes(opt)){
       output.push(opt)
     }
   })
+
+  // Return the concatenation of the output list and the modified initialList that has
+  // all conditional filenames removed
   return output.concat(initialList)
 }
 
@@ -77,9 +72,11 @@ function sanitizeWhitelist(customRules, initialList){
 // const directory = 'Oakwood/167_2323/167_2323v2Rev'
 // const directory = 'Oakwood/167_2324/167_2324'
 // const directory = 'Oakwood/167_2325/167_2325'
+// const directory = 'Oakwood/167_2325/167_2327'
 
 
 // ARBOR HOME DIRECTORIES
+const directory = 'Arbor/219_940-Jefferson/219_940'
 // const directory = 'Arbor/Bradford(868)/199_868'
 // const directory = 'Arbor/Chestnut(869)/199_869'
 // const directory = 'Arbor/199_864-Cottonwood'
@@ -87,11 +84,12 @@ function sanitizeWhitelist(customRules, initialList){
 // const directory = 'Arbor/199_867-Ashton'
 // const directory = 'Arbor/Magnolia(880)'
 // const directory = 'Arbor/Cooper(7448)'
-// const directory = 'Arbor/Mulberry(874)'
+// const directory = 'Arbor/Mulberry(874)-Update 11-1'
 // const directory = 'Arbor/Empress(877)'
 // const directory = 'Arbor/Norway(875)'
-const directory = 'Arbor/Spruce(873)'
+// const directory = 'Arbor/Spruce(873)'
 // const directory = 'Arbor/Walnut(870)'
+// const directory = 'test'
 
 
 /* Extract all file names from individual floor option folders */
@@ -100,40 +98,40 @@ const directory = 'Arbor/Spruce(873)'
 // console.log('floor_0 options:', floor_0)
 //
 let floor_1 = findFileNames(`../${directory}/floor_1`)
-// console.log('floor_1 options:', floor_1)
+// console.log('\n floor_1 options:', floor_1)
 // //
 let floor_2 = findFileNames(`../${directory}/floor_2`)
 // console.log('floor_2 options:', floor_2)
 //
-// let floor_3 = findFileNames(`../${directory}/floor_3`)
-// console.log('floor_3 options:', floor_3)
+let floor_3 = findFileNames(`../${directory}/floor_3`)
+console.log('floor_3 options:', floor_3)
 
 /* Automatically create custom rule objects */
 // const customRulesFloorZero = createCustomRules(floor_0, 0)
 const customRulesFloorOne = createCustomRules(floor_1, 1)
 const customRulesFloorTwo = createCustomRules(floor_2, 2)
-// const customRulesFloorThree = createCustomRules(floor_3, 3)
+const customRulesFloorThree = createCustomRules(floor_3, 3)
 
 
 // console.log('customRulesFloorZero:', customRulesFloorZero)
-// console.log('customRulesFloorOne:', customRulesFloorOne)
+// console.log('customRulesFloorOne:', util.inspect(customRulesFloorOne, {showHidden: false, depth: null}))
 // console.log('customRulesFloorTwo:', customRulesFloorTwo)
-// console.log('customRulesFloorThree:', customRulesFloorThree)
-// console.log('all Custom Rules:', util.inspect(customRulesFloorOne, {showHidden: false, depth: null}))
+// console.log('customRulesFloorThree:', util.inspect(customRulesFloorThree, {showHidden: false, depth: null}))
+// console.log('\n all Custom Rules:', util.inspect(customRulesFloorOne, {showHidden: false, depth: null}))
 // console.log('all Custom Rules:', util.inspect(customRulesFloorZero.concat(customRulesFloorOne).concat(customRulesFloorTwo).concat(customRulesFloorThree), {showHidden: false, depth: null}))
-console.log('all Custom Rules:', util.inspect(customRulesFloorOne.concat(customRulesFloorTwo), {showHidden: false, depth: null}))
-// console.log('all Custom Rules:', util.inspect(customRulesFloorOne.concat(customRulesFloorTwo).concat(customRulesFloorThree), {showHidden: false, depth: null}))
+// console.log('all Custom Rules:', util.inspect(customRulesFloorOne.concat(customRulesFloorTwo), {showHidden: false, depth: null}))
+console.log('all Custom Rules:', util.inspect(customRulesFloorOne.concat(customRulesFloorTwo).concat(customRulesFloorThree), {showHidden: false, depth: null}))
 
 
 /* Create non-duplicate list of all possible options */
 // const whitelistOutputFloorZero = sanitizeWhitelist(customRulesFloorZero, floor_0)
 const whitelistOutputFloorOne = sanitizeWhitelist(customRulesFloorOne, floor_1)
 const whitelistOutputFloorTwo = sanitizeWhitelist(customRulesFloorTwo, floor_2)
-// const whitelistOutputFloorThree = sanitizeWhitelist(customRulesFloorThree, floor_3)
+const whitelistOutputFloorThree = sanitizeWhitelist(customRulesFloorThree, floor_3)
 
 
 // console.log('WHITELISTS')
 // console.log('floor_0:', whitelistOutputFloorZero)
 console.log('floor_1:', whitelistOutputFloorOne)
 console.log('floor_2:', whitelistOutputFloorTwo)
-// console.log('floor_3:', whitelistOutputFloorThree)
+console.log('floor_3:', whitelistOutputFloorThree)
