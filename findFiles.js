@@ -1,3 +1,5 @@
+'use strict'
+
 // Use the below to automatically create the list of array.
 // Must be run in node, will not work in browser
 const fs = require('fs');
@@ -91,47 +93,123 @@ const directory = 'Arbor/219_940-Jefferson/219_940'
 // const directory = 'Arbor/Walnut(870)'
 // const directory = 'test'
 
+const oneFloorArray = ['floor_1']
+const twoFloorArray = ['floor_1', 'floor_2']
+const threeFloorArray = ['floor_1', 'floor_2', 'floor_3']
+
+
+callWithOneFloors(directory, oneFloorArray)
+callWithTwoFloors(directory, twoFloorArray)
+callWithThreeFloors(directory, threeFloorArray)
+
+
+
+function callWithThreeFloors(directory, floorArray){
+
+  let floor_1 = findFileNames(`../${directory}/${floorArray[0]}`)
+  // console.log('\n floor_1 options:', floor_1)
+
+  let floor_2 = findFileNames(`../${directory}/${floorArray[1]}`)
+  // console.log('floor_2 options:', floor_2)
+
+  let floor_3 = findFileNames(`../${directory}/${floorArray[2]}`)
+  // console.log('floor_3 options:', floor_3)
+
+  const customRulesFloorOne = createCustomRules(floor_1, 1)
+  const customRulesFloorTwo = createCustomRules(floor_2, 2)
+  const customRulesFloorThree = createCustomRules(floor_3, 3)
+
+
+  const whitelistOutputFloorOne = sanitizeWhitelist(customRulesFloorOne, floor_1)
+  const whitelistOutputFloorTwo = sanitizeWhitelist(customRulesFloorTwo, floor_2)
+  const whitelistOutputFloorThree = sanitizeWhitelist(customRulesFloorThree, floor_3)
+
+  console.log('floor_1:', whitelistOutputFloorOne)
+  console.log('floor_2:', whitelistOutputFloorTwo)
+  console.log('floor_3:', whitelistOutputFloorThree)
+
+  console.log('all Custom Rules:', util.inspect(customRulesFloorOne.concat(customRulesFloorTwo).concat(customRulesFloorThree), {showHidden: false, depth: null}))
+}
+
+function callWithTwoFloors(directory, floorArray){
+  let floor_1 = findFileNames(`../${directory}/${floorArray[0]}`)
+  // console.log('\n floor_1 options:', floor_1)
+
+  let floor_2 = findFileNames(`../${directory}/${floorArray[1]}`)
+  // console.log('floor_2 options:', floor_2)
+
+  const customRulesFloorOne = createCustomRules(floor_1, 1)
+  const customRulesFloorTwo = createCustomRules(floor_2, 2)
+
+
+  const whitelistOutputFloorOne = sanitizeWhitelist(customRulesFloorOne, floor_1)
+  const whitelistOutputFloorTwo = sanitizeWhitelist(customRulesFloorTwo, floor_2)
+
+  console.log('floor_1:', whitelistOutputFloorOne)
+  console.log('floor_2:', whitelistOutputFloorTwo)
+  console.log('all Custom Rules:', util.inspect(customRulesFloorOne.concat(customRulesFloorTwo), {showHidden: false, depth: null}))
+}
+
+
+function callWithOneFloors(directory, floorArray){
+  let floor_1 = findFileNames(`../${directory}/${floorArray[0]}`)
+  // console.log('\n floor_1 options:', floor_1)
+
+  const customRulesFloorOne = createCustomRules(floor_1, 1)
+
+
+  const whitelistOutputFloorOne = sanitizeWhitelist(customRulesFloorOne, floor_1)
+
+  console.log('floor_1:', whitelistOutputFloorOne)
+  console.log('all Custom Rules:', util.inspect(customRulesFloorOne, {showHidden: false, depth: null}))
+}
+
+
+
+
+
+
 
 /* Extract all file names from individual floor option folders */
 
 // let floor_0 = findFileNames(`../${directory}/floor_0`)
 // console.log('floor_0 options:', floor_0)
 //
-let floor_1 = findFileNames(`../${directory}/floor_1`)
-// console.log('\n floor_1 options:', floor_1)
+// let floor_1 = findFileNames(`../${directory}/floor_1`)
+// // console.log('\n floor_1 options:', floor_1)
+// // //
+// let floor_2 = findFileNames(`../${directory}/floor_2`)
+// // console.log('floor_2 options:', floor_2)
 // //
-let floor_2 = findFileNames(`../${directory}/floor_2`)
-// console.log('floor_2 options:', floor_2)
+// let floor_3 = findFileNames(`../${directory}/floor_3`)
+// console.log('floor_3 options:', floor_3)
 //
-let floor_3 = findFileNames(`../${directory}/floor_3`)
-console.log('floor_3 options:', floor_3)
-
-/* Automatically create custom rule objects */
-// const customRulesFloorZero = createCustomRules(floor_0, 0)
-const customRulesFloorOne = createCustomRules(floor_1, 1)
-const customRulesFloorTwo = createCustomRules(floor_2, 2)
-const customRulesFloorThree = createCustomRules(floor_3, 3)
-
-
-// console.log('customRulesFloorZero:', customRulesFloorZero)
-// console.log('customRulesFloorOne:', util.inspect(customRulesFloorOne, {showHidden: false, depth: null}))
-// console.log('customRulesFloorTwo:', customRulesFloorTwo)
-// console.log('customRulesFloorThree:', util.inspect(customRulesFloorThree, {showHidden: false, depth: null}))
-// console.log('\n all Custom Rules:', util.inspect(customRulesFloorOne, {showHidden: false, depth: null}))
-// console.log('all Custom Rules:', util.inspect(customRulesFloorZero.concat(customRulesFloorOne).concat(customRulesFloorTwo).concat(customRulesFloorThree), {showHidden: false, depth: null}))
-// console.log('all Custom Rules:', util.inspect(customRulesFloorOne.concat(customRulesFloorTwo), {showHidden: false, depth: null}))
-console.log('all Custom Rules:', util.inspect(customRulesFloorOne.concat(customRulesFloorTwo).concat(customRulesFloorThree), {showHidden: false, depth: null}))
-
-
-/* Create non-duplicate list of all possible options */
-// const whitelistOutputFloorZero = sanitizeWhitelist(customRulesFloorZero, floor_0)
-const whitelistOutputFloorOne = sanitizeWhitelist(customRulesFloorOne, floor_1)
-const whitelistOutputFloorTwo = sanitizeWhitelist(customRulesFloorTwo, floor_2)
-const whitelistOutputFloorThree = sanitizeWhitelist(customRulesFloorThree, floor_3)
-
-
-// console.log('WHITELISTS')
-// console.log('floor_0:', whitelistOutputFloorZero)
-console.log('floor_1:', whitelistOutputFloorOne)
-console.log('floor_2:', whitelistOutputFloorTwo)
-console.log('floor_3:', whitelistOutputFloorThree)
+// /* Automatically create custom rule objects */
+// // const customRulesFloorZero = createCustomRules(floor_0, 0)
+// const customRulesFloorOne = createCustomRules(floor_1, 1)
+// const customRulesFloorTwo = createCustomRules(floor_2, 2)
+// const customRulesFloorThree = createCustomRules(floor_3, 3)
+//
+//
+// // console.log('customRulesFloorZero:', customRulesFloorZero)
+// // console.log('customRulesFloorOne:', util.inspect(customRulesFloorOne, {showHidden: false, depth: null}))
+// // console.log('customRulesFloorTwo:', customRulesFloorTwo)
+// // console.log('customRulesFloorThree:', util.inspect(customRulesFloorThree, {showHidden: false, depth: null}))
+// // console.log('\n all Custom Rules:', util.inspect(customRulesFloorOne, {showHidden: false, depth: null}))
+// // console.log('all Custom Rules:', util.inspect(customRulesFloorZero.concat(customRulesFloorOne).concat(customRulesFloorTwo).concat(customRulesFloorThree), {showHidden: false, depth: null}))
+// // console.log('all Custom Rules:', util.inspect(customRulesFloorOne.concat(customRulesFloorTwo), {showHidden: false, depth: null}))
+// console.log('all Custom Rules:', util.inspect(customRulesFloorOne.concat(customRulesFloorTwo).concat(customRulesFloorThree), {showHidden: false, depth: null}))
+//
+//
+// /* Create non-duplicate list of all possible options */
+// // const whitelistOutputFloorZero = sanitizeWhitelist(customRulesFloorZero, floor_0)
+// const whitelistOutputFloorOne = sanitizeWhitelist(customRulesFloorOne, floor_1)
+// const whitelistOutputFloorTwo = sanitizeWhitelist(customRulesFloorTwo, floor_2)
+// const whitelistOutputFloorThree = sanitizeWhitelist(customRulesFloorThree, floor_3)
+//
+//
+// // console.log('WHITELISTS')
+// // console.log('floor_0:', whitelistOutputFloorZero)
+// console.log('floor_1:', whitelistOutputFloorOne)
+// console.log('floor_2:', whitelistOutputFloorTwo)
+// console.log('floor_3:', whitelistOutputFloorThree)
