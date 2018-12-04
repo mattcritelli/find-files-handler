@@ -1,13 +1,9 @@
 const util = require('util')
 
 // Determine number of conditionals in filename
-
-
 function conditionalCount(filename){
   const conditionals = [' or ', ' and not ', ' and ', ' join ']
   let count = 0;
-
-  // if(filename.includes(' or ')){ count++; };
 
   conditionals.forEach(condition => {
     if(filename.includes(condition)){
@@ -23,7 +19,21 @@ function conditionalCount(filename){
   return count;
 };
 
-// Find index positions for all conditionals
+/*
+  Find index positions for all conditionals
+
+  Example output for: dvgslstcorn or woodlstcorn or eleclstcorn and stru-2ftrear and not stru-2ftsidegargopp
+
+  { firstConditional: { ruleType: ' or ', index: 11 },
+    conditionals:
+     { ' or ': [ 11, 26 ],
+       ' and not ': [ 58 ],
+       ' and ': [ 41 ],
+       ' join ': []
+     }
+   }
+
+ */
 function findIndexOfEachConditional(filename) {
   const conditionalsList = [' or ', ' and not ', ' and ', ' join ']
   let earliestConditionalIdx = null;
@@ -56,10 +66,21 @@ function findIndexOfEachConditional(filename) {
       }
     })
   }
-  // console.log('output in findIndexOfEachConditional', output)
   return output
 };
 
+/*
+  Example output for: dvgslstcorn or woodlstcorn or eleclstcorn and stru-2ftrear and not stru-2ftsidegargopp
+
+  { conditionalToReplace: ' or ',
+    conditionalLists:
+     { ' or ': [ 'dvgslstcorn', 'woodlstcorn', 'eleclstcorn' ],
+       ' and ': [ 'stru-2ftrear' ],
+       ' and not ': [ 'stru-2ftsidegargopp' ],
+       ' join ': []
+     }
+   }
+ */
 function sortMultiConditionIntoArrays(objectWithConditionalIndices, filename) {
   // Store array of all spaces within a filename which will be used to find end of options
   const spaceIndexes = [];
@@ -94,10 +115,24 @@ function sortMultiConditionIntoArrays(objectWithConditionalIndices, filename) {
 
     })
   }
-  // console.log('sortedConditionalHrefs in sortMultiConditionIntoArrays', sortedConditionalHrefs)
+  // console.log('\nsortedConditionalHrefs in sortMultiConditionIntoArrays', sortedConditionalHrefs)
   return sortedConditionalHrefs
 }
 
+/*
+Example output for: dvgslstcorn or woodlstcorn or eleclstcorn and stru-2ftrear and not stru-2ftsidegargopp
+
+    { altHref: 'dvgslstcorn or woodlstcorn or eleclstcorn and stru-2ftrear and not stru-2ftsidegargopp',
+      floor: 1,
+      ruleType: 'multi',
+      groupToReplace: 'multiOr',
+      multiGroup:
+       { multiOr: [ 'dvgslstcorn', 'woodlstcorn', 'eleclstcorn' ],
+         multiAnd: [ 'stru-2ftrear' ],
+         multiAndNot: [ 'stru-2ftsidegargopp' ]
+       }
+     }
+ */
 function formatMultiCustomRule(result, floorNum, originalFilename){
   // console.log('result:\n', result)
   const output = {
