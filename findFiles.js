@@ -78,7 +78,7 @@ function sanitizeWhitelist(customRules, initialList){
 
 
 // ARBOR HOME DIRECTORIES
-const directory = 'Arbor/219_940-Jefferson/219_940'
+// const directory = 'Arbor/219_940-Jefferson/219_940'
 // const directory = 'Arbor/Bradford(868)/199_868'
 // const directory = 'Arbor/Chestnut(869)/199_869'
 // const directory = 'Arbor/199_864-Cottonwood'
@@ -91,7 +91,7 @@ const directory = 'Arbor/219_940-Jefferson/219_940'
 // const directory = 'Arbor/Norway(875)'
 // const directory = 'Arbor/Spruce(873)'
 // const directory = 'Arbor/Walnut(870)'
-// const directory = 'test'
+const directory = 'test'
 
 const oneFloorArray = ['floor_1']
 const twoFloorArray = ['floor_1', 'floor_2']
@@ -99,8 +99,8 @@ const threeFloorArray = ['floor_1', 'floor_2', 'floor_3']
 
 
 callWithOneFloors(directory, oneFloorArray)
-callWithTwoFloors(directory, twoFloorArray)
-callWithThreeFloors(directory, threeFloorArray)
+// callWithTwoFloors(directory, twoFloorArray)
+// callWithThreeFloors(directory, threeFloorArray)
 
 
 
