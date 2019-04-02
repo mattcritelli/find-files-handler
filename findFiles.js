@@ -7,22 +7,22 @@ const util = require('util')
 const multiConditionHandler = require('./multiConditionHandler');
 
 
-function findFileNames(dirName){
+function findFileNames(dirName) {
   // directory below may need to be modified slightly depending on folder structure
   return fs.readdirSync(`${dirName}`)
-           .map(filename => filename.replace(/-01.svg/, '')
-           .toLowerCase())
-           .filter(fn => fn !== '.ds_store');
+    .map(filename => filename.replace(/-01.svg/, '')
+      .toLowerCase())
+    .filter(fn => fn !== '.ds_store');
 }
 
 /* Automatically create custom rule objects */
-function createCustomRules(filenameList, floorNum){
+function createCustomRules(filenameList, floorNum) {
   const multiRules = []
 
   filenameList.forEach(filename => {
     let count = multiConditionHandler.conditionalCount(filename)
 
-    if (count >= 1){
+    if (count >= 1) {
       const conditionalIndices = multiConditionHandler.findIndexOfEachConditional(filename)
       const sortedConditionals = multiConditionHandler.sortMultiConditionIntoArrays(conditionalIndices, filename)
       const ruleToAdd = multiConditionHandler.formatMultiCustomRule(sortedConditionals, floorNum, filename)
@@ -33,7 +33,7 @@ function createCustomRules(filenameList, floorNum){
 }
 
 /* Create non-duplicate list of all possible options */
-function sanitizeWhitelist(customRules, initialList){
+function sanitizeWhitelist(customRules, initialList) {
   const aggregateOptions = []
   const output = []
 
@@ -52,7 +52,7 @@ function sanitizeWhitelist(customRules, initialList){
   // --> If it does not, then add option to output array
   // console.log('aggregateOptions', aggregateOptions)
   aggregateOptions.forEach(opt => {
-    if(!output.includes(opt)){
+    if (!output.includes(opt)) {
       output.push(opt)
     }
   })
@@ -62,6 +62,21 @@ function sanitizeWhitelist(customRules, initialList){
   return output.concat(initialList)
 }
 
+function findAllSingleOptions(customRules, whitelist) {
+  let output = [];
+
+  customRules.forEach(rule => {
+    Object.keys(rule.multiGroup).forEach(group => {
+      rule.multiGroup[group].forEach(option => {
+        if (!output.includes(option)) {
+          output.push(option)
+        }
+      })
+    })
+  })
+
+  return whitelist.filter(opt => !output.includes(opt));
+}
 //////////////////////////////////////////////////////////////////////
 //                                                                  //
 // FOR NOW - NEED TO MANUALLY ADJUST BELOW BASED ON MODEL SPECIFICS //
@@ -78,12 +93,13 @@ function sanitizeWhitelist(customRules, initialList){
 
 
 // ARBOR HOME DIRECTORIES
-// const directory = 'Arbor/219_940-Jefferson/219_940'
+
+// const directory = 'Arbor/Phase_2/219_940'
 // const directory = 'Arbor/Bradford(868)/199_868'
 // const directory = 'Arbor/Chestnut(869)/199_869'
 // const directory = 'Arbor/199_864-Cottonwood'
 // const directory = 'Arbor/199_872-Aspen/199_872'
-// const directory = 'Arbor/199_867-Ashton'
+const directory = 'Arbor/Phase_2/218_867'
 // const directory = 'Arbor/Magnolia(880)'
 // const directory = 'Arbor/Cooper(7448)'
 // const directory = 'Arbor/Mulberry(874)-Update 11-1'
@@ -91,7 +107,7 @@ function sanitizeWhitelist(customRules, initialList){
 // const directory = 'Arbor/Norway(875)'
 // const directory = 'Arbor/Spruce(873)'
 // const directory = 'Arbor/Walnut(870)'
-const directory = 'test'
+// const directory = 'test'
 
 const oneFloorArray = ['floor_1']
 const twoFloorArray = ['floor_1', 'floor_2']
@@ -104,7 +120,7 @@ callWithOneFloors(directory, oneFloorArray)
 
 
 
-function callWithThreeFloors(directory, floorArray){
+function callWithThreeFloors(directory, floorArray) {
 
   let floor_1 = findFileNames(`../${directory}/${floorArray[0]}`)
   // console.log('\n floor_1 options:', floor_1)
@@ -119,19 +135,30 @@ function callWithThreeFloors(directory, floorArray){
   const customRulesFloorTwo = createCustomRules(floor_2, 2)
   const customRulesFloorThree = createCustomRules(floor_3, 3)
 
-
   const whitelistOutputFloorOne = sanitizeWhitelist(customRulesFloorOne, floor_1)
   const whitelistOutputFloorTwo = sanitizeWhitelist(customRulesFloorTwo, floor_2)
   const whitelistOutputFloorThree = sanitizeWhitelist(customRulesFloorThree, floor_3)
 
+
+  const singleOptionsOne = findAllSingleOptions(customRulesFloorOne, whitelistOutputFloorOne)
+  const singleOptionsTwo = findAllSingleOptions(customRulesFloorTwo, whitelistOutputFloorTwo)
+  const singleOptionsThree = findAllSingleOptions(customRulesFloorThree, whitelistOutputFloorThree)
+
+
+  console.log('\nSingle Options', singleOptions)
+  console.log('\nfloor_1:', singleOptionsOne)
+  console.log('\nfloor_2:', singleOptionsTwo)
+  console.log('\nfloor_3:', singleOptionsThree)
+
+  console.log('\nWhitelists:');
   console.log('floor_1:', whitelistOutputFloorOne)
   console.log('floor_2:', whitelistOutputFloorTwo)
   console.log('floor_3:', whitelistOutputFloorThree)
 
-  console.log('all Custom Rules:', util.inspect(customRulesFloorOne.concat(customRulesFloorTwo).concat(customRulesFloorThree), {showHidden: false, depth: null}))
+  console.log('all Custom Rules:', util.inspect(customRulesFloorOne.concat(customRulesFloorTwo).concat(customRulesFloorThree), { showHidden: false, depth: null }))
 }
 
-function callWithTwoFloors(directory, floorArray){
+function callWithTwoFloors(directory, floorArray) {
   let floor_1 = findFileNames(`../${directory}/${floorArray[0]}`)
   // console.log('\n floor_1 options:', floor_1)
 
@@ -141,27 +168,44 @@ function callWithTwoFloors(directory, floorArray){
   const customRulesFloorOne = createCustomRules(floor_1, 1)
   const customRulesFloorTwo = createCustomRules(floor_2, 2)
 
-
   const whitelistOutputFloorOne = sanitizeWhitelist(customRulesFloorOne, floor_1)
   const whitelistOutputFloorTwo = sanitizeWhitelist(customRulesFloorTwo, floor_2)
 
+  const singleOptionsOne = findAllSingleOptions(customRulesFloorOne, whitelistOutputFloorOne)
+  const singleOptionsTwo = findAllSingleOptions(customRulesFloorTwo, whitelistOutputFloorTwo)
+
+  console.log('\nSingle Options', singleOptions)
+  console.log('\nfloor_1:', singleOptionsOne)
+  console.log('\nfloor_2:', singleOptionsTwo)
+
+
+  console.log('\nWhitelists:');
   console.log('floor_1:', whitelistOutputFloorOne)
   console.log('floor_2:', whitelistOutputFloorTwo)
-  console.log('all Custom Rules:', util.inspect(customRulesFloorOne.concat(customRulesFloorTwo), {showHidden: false, depth: null}))
+
+
+  console.log('all Custom Rules:', util.inspect(customRulesFloorOne.concat(customRulesFloorTwo), { showHidden: false, depth: null }))
 }
 
 
-function callWithOneFloors(directory, floorArray){
+function callWithOneFloors(directory, floorArray) {
   let floor_1 = findFileNames(`../${directory}/${floorArray[0]}`)
   // console.log('\n floor_1 options:', floor_1)
 
   const customRulesFloorOne = createCustomRules(floor_1, 1)
 
-
+  // console.log('\nWhitelists:');
   const whitelistOutputFloorOne = sanitizeWhitelist(customRulesFloorOne, floor_1)
 
-  console.log('floor_1:', whitelistOutputFloorOne)
-  console.log('all Custom Rules:', util.inspect(customRulesFloorOne, {showHidden: false, depth: null}))
+  const singleOptionsOne = findAllSingleOptions(customRulesFloorOne, whitelistOutputFloorOne)
+
+  console.log('\nWhitelists:');
+  console.log('\nfloor_1:', whitelistOutputFloorOne)
+
+  console.log('\nSingle Options', singleOptions)
+  console.log('\nfloor_1:', singleOptionsOne)
+
+  console.log('all Custom Rules:', util.inspect(customRulesFloorOne, { showHidden: false, depth: null }))
 }
 
 
@@ -213,3 +257,23 @@ function callWithOneFloors(directory, floorArray){
 // console.log('floor_1:', whitelistOutputFloorOne)
 // console.log('floor_2:', whitelistOutputFloorTwo)
 // console.log('floor_3:', whitelistOutputFloorThree)
+
+
+
+
+
+
+/******* PHASE 1 ************/
+// const directory = 'Arbor/219_940-Jefferson/219_940'
+// const directory = 'Arbor/Bradford(868)/199_868'
+// const directory = 'Arbor/Chestnut(869)/199_869'
+// const directory = 'Arbor/199_864-Cottonwood'
+// const directory = 'Arbor/199_872-Aspen/199_872'
+// const directory = 'Arbor/199_867-Ashton'
+// const directory = 'Arbor/Magnolia(880)'
+// const directory = 'Arbor/Cooper(7448)'
+// const directory = 'Arbor/Mulberry(874)-Update 11-1'
+// const directory = 'Arbor/Empress(877)'
+// const directory = 'Arbor/Norway(875)'
+// const directory = 'Arbor/Spruce(873)'
+// const directory = 'Arbor/Walnut(870)'

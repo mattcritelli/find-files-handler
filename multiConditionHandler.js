@@ -1,14 +1,14 @@
 const util = require('util')
 
 // Determine number of conditionals in filename
-function conditionalCount(filename){
+function conditionalCount(filename) {
   const conditionals = [' or ', ' and not ', ' and ', ' join ']
   let count = 0;
 
   conditionals.forEach(condition => {
-    if(filename.includes(condition)){
+    if (filename.includes(condition)) {
       count++;
-      while (filename.includes(condition)){
+      while (filename.includes(condition)) {
         const idx = filename.indexOf(condition);
         const beginning = filename.slice(0, idx);
         const end = filename.slice((idx + condition.length));
@@ -39,16 +39,16 @@ function findIndexOfEachConditional(filename) {
   let earliestConditionalIdx = null;
   let output = {
     firstConditional: null,
-    conditionals: {' or ': [], ' and not ': [], ' and ': [], ' join ': [] }
+    conditionals: { ' or ': [], ' and not ': [], ' and ': [], ' join ': [] }
   }
 
   // Iterate through entire filename string
-  for(var fileIdx = 0, fileLength = filename.length; fileIdx < fileLength; fileIdx++){
+  for (var fileIdx = 0, fileLength = filename.length; fileIdx < fileLength; fileIdx++) {
     // For each string position - check to see if it is the start of a conditional
-    for(var checkCondition = 0; checkCondition < conditionalsList.length; checkCondition++ ){
+    for (var checkCondition = 0; checkCondition < conditionalsList.length; checkCondition++) {
       // Grabs part of string starting with current index and adding to it the length of conditional to check
       let stringToMatch = filename.slice(fileIdx, fileIdx + conditionalsList[checkCondition].length)
-      if(stringToMatch === conditionalsList[checkCondition]){
+      if (stringToMatch === conditionalsList[checkCondition]) {
         output.conditionals[conditionalsList[checkCondition]].push(fileIdx)
       }
     }
@@ -58,11 +58,11 @@ function findIndexOfEachConditional(filename) {
   output.conditionals[' and '] = output.conditionals[' and '].filter(index => !output.conditionals[' and not '].includes(index))
 
   // Adds to output object the first conditional index found and the type
-  for(cond in output.conditionals){
+  for (cond in output.conditionals) {
     output.conditionals[cond].forEach(index => {
-      if(!earliestConditionalIdx || index < earliestConditionalIdx){
+      if (!earliestConditionalIdx || index < earliestConditionalIdx) {
         earliestConditionalIdx = index;
-        output.firstConditional = {ruleType: cond, index: index}
+        output.firstConditional = { ruleType: cond, index: index }
       }
     })
   }
@@ -85,7 +85,7 @@ function sortMultiConditionIntoArrays(objectWithConditionalIndices, filename) {
   // Store array of all spaces within a filename which will be used to find end of options
   const spaceIndexes = [];
   filename.split('').map((char, i) => {
-    if(char === ' '){
+    if (char === ' ') {
       spaceIndexes.push(i)
     }
   })
@@ -106,7 +106,7 @@ function sortMultiConditionIntoArrays(objectWithConditionalIndices, filename) {
   sortedConditionalHrefs.conditionalLists[objectWithConditionalIndices.firstConditional.ruleType].push(filename.slice(0, firstCondIndex))
 
   // handle remaining
-  for(conditional in objectWithConditionalIndices.conditionals){
+  for (conditional in objectWithConditionalIndices.conditionals) {
     objectWithConditionalIndices.conditionals[conditional].map(index => {
       const endSlice = spaceIndexes.find(spaceIdx => spaceIdx > (index + conditional.length))
       const startSlice = index + conditional.length
@@ -133,7 +133,7 @@ Example output for: dvgslstcorn or woodlstcorn or eleclstcorn and stru-2ftrear a
        }
      }
  */
-function formatMultiCustomRule(result, floorNum, originalFilename){
+function formatMultiCustomRule(result, floorNum, originalFilename) {
   // console.log('result:\n', result)
   const output = {
     altHref: originalFilename,
@@ -149,11 +149,11 @@ function formatMultiCustomRule(result, floorNum, originalFilename){
     ' join ': 'multiJoin'
   }
 
-  for(condType in result.conditionalLists){
-    if(result.conditionalLists[condType].length > 0){
+  for (condType in result.conditionalLists) {
+    if (result.conditionalLists[condType].length > 0) {
       output.multiGroup[conditionalDict[condType]] = result.conditionalLists[condType]
 
-      if(condType === result.conditionalToReplace){
+      if (condType === result.conditionalToReplace) {
         output.groupToReplace = conditionalDict[condType]
       }
       // output.multiGroup.push({[conditionalDict[condType]] = result.conditionalLists[condType]})
