@@ -116,7 +116,7 @@ function callWithTwoFloors(directory, floorArray) {
   const whitelistOutputFloorTwo = sanitizeWhitelist(customRulesFloorTwo, floor_2)
 
   console.log('\nWhitelists:');
-  console.log('\nfloor_1:', whitelistOutputFloorOne)
+  console.log('\nfloor_1:', whitelistOutputFloorOne, ',')
   console.log('floor_2:', whitelistOutputFloorTwo)
 
   console.log('\nall Custom Rules:', util.inspect(customRulesFloorOne.concat(customRulesFloorTwo), { showHidden: false, depth: null }))
@@ -151,7 +151,7 @@ function callWithOneFloors(directory, floorArray) {
 
 // ARBOR HOME DIRECTORIES
 
-const directory = 'Arbor/Phase_2/219_940'
+const directory = 'Arbor/Phase_2/199_872'
 // const directory = 'Arbor/Bradford(868)/199_868'
 // const directory = 'Arbor/Chestnut(869)/199_869'
 // const directory = 'Arbor/199_864-Cottonwood'
@@ -164,5 +164,5 @@ const threeFloorArray = ['floor_1', 'floor_2', 'floor_3']
 
 
 // callWithOneFloors(directory, oneFloorArray)
-// callWithTwoFloors(directory, twoFloorArray)
-callWithThreeFloors(directory, threeFloorArray)
+callWithTwoFloors(directory, twoFloorArray)
+// callWithThreeFloors(directory, threeFloorArray)
