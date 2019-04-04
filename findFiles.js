@@ -99,8 +99,8 @@ function callWithThreeFloors(directory, floorArray) {
 
   console.log('\nWhitelists:');
   console.log('\nfloor_1:', whitelistOutputFloorOne, ',')
-  console.log('\nfloor_2:', whitelistOutputFloorTwo, ',')
-  console.log('\nfloor_3:', whitelistOutputFloorThree)
+  console.log('floor_2:', whitelistOutputFloorTwo, ',')
+  console.log('floor_3:', whitelistOutputFloorThree)
 
   console.log('all Custom Rules:', util.inspect(customRulesFloorOne.concat(customRulesFloorTwo).concat(customRulesFloorThree), { showHidden: false, depth: null }))
 }
@@ -116,12 +116,8 @@ function callWithTwoFloors(directory, floorArray) {
   const whitelistOutputFloorTwo = sanitizeWhitelist(customRulesFloorTwo, floor_2)
 
   console.log('\nWhitelists:');
-  console.log('floor_1:', whitelistOutputFloorOne)
+  console.log('\nfloor_1:', whitelistOutputFloorOne)
   console.log('floor_2:', whitelistOutputFloorTwo)
-
-  console.log('\nSingle Options')
-  console.log('\nfloor_1:', singleOptionsOne)
-  console.log('\nfloor_2:', singleOptionsTwo)
 
   console.log('\nall Custom Rules:', util.inspect(customRulesFloorOne.concat(customRulesFloorTwo), { showHidden: false, depth: null }))
 }
