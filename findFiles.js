@@ -57,9 +57,15 @@ function sanitizeWhitelist(customRules, initialList) {
     }
   })
 
+  initialList.forEach(opt => {
+    if (!output.includes(opt)) {
+      output.push(opt)
+    }
+  })
+
   // Return the concatenation of the output list and the modified initialList that has
   // all conditional filenames removed
-  return output.concat(initialList)
+  return output
 }
 
 function findAllSingleOptions(customRules, whitelist) {
@@ -94,12 +100,12 @@ function findAllSingleOptions(customRules, whitelist) {
 
 // ARBOR HOME DIRECTORIES
 
-// const directory = 'Arbor/Phase_2/219_940'
+const directory = 'Arbor/Phase_2/219_940'
 // const directory = 'Arbor/Bradford(868)/199_868'
 // const directory = 'Arbor/Chestnut(869)/199_869'
 // const directory = 'Arbor/199_864-Cottonwood'
 // const directory = 'Arbor/199_872-Aspen/199_872'
-const directory = 'Arbor/Phase_2/218_867'
+// const directory = 'Arbor/Phase_2/218-867-test'
 // const directory = 'Arbor/Magnolia(880)'
 // const directory = 'Arbor/Cooper(7448)'
 // const directory = 'Arbor/Mulberry(874)-Update 11-1'
@@ -114,9 +120,9 @@ const twoFloorArray = ['floor_1', 'floor_2']
 const threeFloorArray = ['floor_1', 'floor_2', 'floor_3']
 
 
-callWithOneFloors(directory, oneFloorArray)
+// callWithOneFloors(directory, oneFloorArray)
 // callWithTwoFloors(directory, twoFloorArray)
-// callWithThreeFloors(directory, threeFloorArray)
+callWithThreeFloors(directory, threeFloorArray)
 
 
 
@@ -140,20 +146,19 @@ function callWithThreeFloors(directory, floorArray) {
   const whitelistOutputFloorThree = sanitizeWhitelist(customRulesFloorThree, floor_3)
 
 
-  const singleOptionsOne = findAllSingleOptions(customRulesFloorOne, whitelistOutputFloorOne)
-  const singleOptionsTwo = findAllSingleOptions(customRulesFloorTwo, whitelistOutputFloorTwo)
-  const singleOptionsThree = findAllSingleOptions(customRulesFloorThree, whitelistOutputFloorThree)
-
-
-  console.log('\nSingle Options', singleOptions)
-  console.log('\nfloor_1:', singleOptionsOne)
-  console.log('\nfloor_2:', singleOptionsTwo)
-  console.log('\nfloor_3:', singleOptionsThree)
+  // const singleOptionsOne = findAllSingleOptions(customRulesFloorOne, whitelistOutputFloorOne)
+  // const singleOptionsTwo = findAllSingleOptions(customRulesFloorTwo, whitelistOutputFloorTwo)
+  // const singleOptionsThree = findAllSingleOptions(customRulesFloorThree, whitelistOutputFloorThree)
 
   console.log('\nWhitelists:');
-  console.log('floor_1:', whitelistOutputFloorOne)
-  console.log('floor_2:', whitelistOutputFloorTwo)
+  console.log('floor_1:', whitelistOutputFloorOne, ',')
+  console.log('floor_2:', whitelistOutputFloorTwo, ',')
   console.log('floor_3:', whitelistOutputFloorThree)
+
+  // console.log('\nSingle Options')
+  // console.log('\nfloor_1:', singleOptionsOne, ',')
+  // console.log('\nfloor_2:', singleOptionsTwo, ',')
+  // console.log('\nfloor_3:', singleOptionsThree)
 
   console.log('all Custom Rules:', util.inspect(customRulesFloorOne.concat(customRulesFloorTwo).concat(customRulesFloorThree), { showHidden: false, depth: null }))
 }
@@ -171,18 +176,16 @@ function callWithTwoFloors(directory, floorArray) {
   const whitelistOutputFloorOne = sanitizeWhitelist(customRulesFloorOne, floor_1)
   const whitelistOutputFloorTwo = sanitizeWhitelist(customRulesFloorTwo, floor_2)
 
-  const singleOptionsOne = findAllSingleOptions(customRulesFloorOne, whitelistOutputFloorOne)
-  const singleOptionsTwo = findAllSingleOptions(customRulesFloorTwo, whitelistOutputFloorTwo)
-
-  console.log('\nSingle Options', singleOptions)
-  console.log('\nfloor_1:', singleOptionsOne)
-  console.log('\nfloor_2:', singleOptionsTwo)
-
+  // const singleOptionsOne = findAllSingleOptions(customRulesFloorOne, whitelistOutputFloorOne)
+  // const singleOptionsTwo = findAllSingleOptions(customRulesFloorTwo, whitelistOutputFloorTwo)
 
   console.log('\nWhitelists:');
   console.log('floor_1:', whitelistOutputFloorOne)
   console.log('floor_2:', whitelistOutputFloorTwo)
 
+  console.log('\nSingle Options')
+  console.log('\nfloor_1:', singleOptionsOne)
+  console.log('\nfloor_2:', singleOptionsTwo)
 
   console.log('all Custom Rules:', util.inspect(customRulesFloorOne.concat(customRulesFloorTwo), { showHidden: false, depth: null }))
 }
@@ -197,13 +200,13 @@ function callWithOneFloors(directory, floorArray) {
   // console.log('\nWhitelists:');
   const whitelistOutputFloorOne = sanitizeWhitelist(customRulesFloorOne, floor_1)
 
-  const singleOptionsOne = findAllSingleOptions(customRulesFloorOne, whitelistOutputFloorOne)
+  // const singleOptionsOne = findAllSingleOptions(customRulesFloorOne, whitelistOutputFloorOne)
 
   console.log('\nWhitelists:');
   console.log('\nfloor_1:', whitelistOutputFloorOne)
 
-  console.log('\nSingle Options', singleOptions)
-  console.log('\nfloor_1:', singleOptionsOne)
+  // console.log('\nSingle Options')
+  // console.log('\nfloor_1:', singleOptionsOne)
 
   console.log('all Custom Rules:', util.inspect(customRulesFloorOne, { showHidden: false, depth: null }))
 }
