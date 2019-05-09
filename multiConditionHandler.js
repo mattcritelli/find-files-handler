@@ -134,7 +134,6 @@ Example output for: dvgslstcorn or woodlstcorn or eleclstcorn and stru-2ftrear a
      }
  */
 function formatMultiCustomRule(result, floorNum, originalFilename) {
-  let count = 0;
   const categoryList = ['fdtn-foundation', 'stru-bnrm-layout']
   const output = {
     altHref: originalFilename,
@@ -154,7 +153,6 @@ function formatMultiCustomRule(result, floorNum, originalFilename) {
   for (condType in result.conditionalLists) {
     if (result.conditionalLists[condType].length > 0) {
       output.multiGroup[conditionalDict[condType]] = result.conditionalLists[condType]
-      count += result.conditionalLists[condType].length
 
       if (result.conditionalLists[condType].some(opt => categoryList.includes(opt))) {
         output.ruleType = 'multiCategory'
@@ -166,7 +164,7 @@ function formatMultiCustomRule(result, floorNum, originalFilename) {
       // output.multiGroup.push({[conditionalDict[condType]] = result.conditionalLists[condType]})
     }
   }
-  output.layerPriority = count
+  output.layerPriority = 3
   // console.log('\noutput at end of formatMultiCustomRule:\n', util.inspect(output, {showHidden: false, depth: null} ))
   return output
 }
