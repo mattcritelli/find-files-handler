@@ -11,7 +11,7 @@ function findFileNames(dirName) {
   // directory below may need to be modified slightly depending on folder structure
   return fs.readdirSync(`${dirName}`)
     .map(filename => filename.replace(/-01.svg/, '')
-      .toLowerCase())
+  )
     .filter(fn => fn !== '.ds_store');
 }
 
@@ -109,8 +109,8 @@ function callWithTwoFloors(directory, floorArray) {
   let floor_1 = findFileNames(`../${directory}/${floorArray[0]}`)
   let floor_2 = findFileNames(`../${directory}/${floorArray[1]}`)
 
-  const customRulesFloorOne = createCustomRules(floor_1, 1)
-  const customRulesFloorTwo = createCustomRules(floor_2, 2)
+  const customRulesFloorOne = createCustomRules(floor_1, 'first')
+  const customRulesFloorTwo = createCustomRules(floor_2, 'second')
 
   const whitelistOutputFloorOne = sanitizeWhitelist(customRulesFloorOne, floor_1)
   const whitelistOutputFloorTwo = sanitizeWhitelist(customRulesFloorTwo, floor_2)
@@ -148,6 +148,10 @@ function callWithOneFloors(directory, floorArray) {
 // const directory = 'Oakwood/167_2325/167_2325'
 // const directory = 'Oakwood/167_2325/167_2327'
 
+// SIGNATURE DIRECTORIES
+const directory = 'Signature/Wingate/'
+const twoFloorArray = ['first_floor/opts', 'second_floor/opts']
+
 
 // ARBOR HOME DIRECTORIES
 
@@ -156,13 +160,13 @@ function callWithOneFloors(directory, floorArray) {
 // const directory = 'Arbor/Chestnut(869)/199_869'
 // const directory = 'Arbor/199_864-Cottonwood'
 // const directory = 'Arbor/199_872-Aspen/199_872'
-const directory = 'Arbor/Phase_2/218/218/870/svg/std'
+// const directory = 'Arbor/Phase_2/218/218/870/svg/std'
 
-const oneFloorArray = ['floor_1']
-const twoFloorArray = ['floor_1', 'floor_2']
-const threeFloorArray = ['floor_1', 'floor_2', 'floor_3']
+// const oneFloorArray = ['floor_1']
+// const twoFloorArray = ['floor_1', 'floor_2']
+// const threeFloorArray = ['floor_1', 'floor_2', 'floor_3']
 
 
-callWithOneFloors(directory, oneFloorArray)
-// callWithTwoFloors(directory, twoFloorArray)
+// callWithOneFloors(directory, oneFloorArray)
+callWithTwoFloors(directory, twoFloorArray)
 // callWithThreeFloors(directory, threeFloorArray)
