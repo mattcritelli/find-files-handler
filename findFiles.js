@@ -149,8 +149,10 @@ function callWithOneFloors(directory, floorArray) {
 // const directory = 'Oakwood/167_2325/167_2327'
 
 // SIGNATURE DIRECTORIES
-const directory = 'Signature/Wingate/'
+const directory = 'Signature/Murphy/'
+// const oneFloorArray = ['first_floor/opts']
 const twoFloorArray = ['first_floor/opts', 'second_floor/opts']
+// const twoFloorArray = ['first_floor', 'second_floor']
 
 
 // ARBOR HOME DIRECTORIES
