@@ -108,14 +108,14 @@ function callWithThreeFloors(directory, floorArray) {
   const whitelistOutputFloorThree = sanitizeWhitelist(customRulesFloorThree, floor_3);
 
   console.log('\nWhitelists:');
-  console.log('\nfloor_1:', whitelistOutputFloorOne, ',');
-  console.log('floor_2:', whitelistOutputFloorTwo, ',');
-  console.log('floor_3:', whitelistOutputFloorThree);
+  console.log('\nfirst:', whitelistOutputFloorOne, ',');
+  console.log('second:', whitelistOutputFloorTwo, ',');
+  console.log('third:', whitelistOutputFloorThree);
 
   console.log('\nDimension Whitelists:');
-  console.log('\nfloor_1:', floorOneDimensions, ',');
-  console.log('\nfloor_2:', floorTwoDimensions, ',');
-  console.log('floor_3:', floorThreeDimensions);
+  console.log('\nfirst:', floorOneDimensions, ',');
+  console.log('\nsecond:', floorTwoDimensions, ',');
+  console.log('third:', floorThreeDimensions);
 
   console.log('all Custom Rules:', util.inspect(customRulesFloorOne.concat(customRulesFloorTwo).concat(customRulesFloorThree), { showHidden: false, depth: null }));
 };
@@ -133,29 +133,29 @@ function callWithTwoFloors(directory, floorArray, dimsArray) {
   const whitelistOutputFloorOne = sanitizeWhitelist(customRulesFloorOne, floor_1);
   const whitelistOutputFloorTwo = sanitizeWhitelist(customRulesFloorTwo, floor_2);
 
-  console.log('\nWhitelists:');
-  console.log('\nfloor_1:', whitelistOutputFloorOne, ',');
-  console.log('floor_2:', whitelistOutputFloorTwo);
-
-  console.log('\nDimension Whitelists:');
-  console.log('\nfloor_1:', floorOneDimensions, ',');
-  console.log('floor_2:', floorTwoDimensions);
-
-  console.log('\n\nall Custom Rules:', util.inspect(customRulesFloorOne.concat(customRulesFloorTwo), { showHidden: false, depth: null }));
+  console.log('\noptionsWhitelist: {');
+  console.log('\tfirst:', whitelistOutputFloorOne, ',');
+  console.log('\tsecond:', whitelistOutputFloorTwo);
+  console.log('},');
+  console.log('dimensionsWhitelist: {');
+  console.log('\tfirst:', floorOneDimensions, ',');
+  console.log('\tsecond:', floorTwoDimensions);
+  console.log('},');
+  console.log('customRules:', util.inspect(customRulesFloorOne.concat(customRulesFloorTwo), { showHidden: false, depth: null }), ',');
 }
 
 
-function callWithOneFloors(directory, floorArray) {
+function callWithOneFloors(directory, floorArray, dimsArray) {
   const floor_1 = findFileNames(`../${directory}/${floorArray[0]}`, 'option');
   const floorOneDimensions = findFileNames(`../${directory}/${dimsArray[0]}`, 'dimension');
   const customRulesFloorOne = createCustomRules(floor_1, 1);
   const whitelistOutputFloorOne = sanitizeWhitelist(customRulesFloorOne, floor_1);
 
   console.log('\nWhitelists:');
-  console.log('\nfloor_1:', whitelistOutputFloorOne)
+  console.log('\nfirst:', whitelistOutputFloorOne)
 
   console.log('\nDimension Whitelists:');
-  console.log('\nfloor_1:', floorOneDimensions);
+  console.log('\nfirst:', floorOneDimensions);
 
   console.log('\n\nall Custom Rules:', util.inspect(customRulesFloorOne, { showHidden: false, depth: null }));
 }
@@ -175,14 +175,33 @@ function callWithOneFloors(directory, floorArray) {
 // const directory = 'Oakwood/167_2325/167_2327'
 
 // SIGNATURE DIRECTORIES
-const directory = 'Signature/Wingate/'
-// const oneFloorArray = ['first_floor/opts']
-const twoFloorArray = ['first_floor/opts', 'second_floor/opts']
-const twoFloorDimsArray = ['first_floor/dimensions', 'second_floor/dimensions']
-// const twoFloorArray = ['first_floor', 'second_floor']
+const modelName = 'Dallas';
+const numFloors = 2;
+const directory = `Signature/${modelName}/`
 
-// callWithOneFloors(directory, oneFloorArray)
-callWithTwoFloors(directory, twoFloorArray, twoFloorDimsArray)
+const oneFloorArray = ['First/opts']
+const twoFloorArray = ['First/opts', 'Second/opts']
+const threeFloorArray = ['First/opts', 'Second/opts', 'Third/opts']
+
+const oneFloorDimsArray = ['First/dimensions']
+const twoFloorDimsArray = ['First/dimensions', 'Second/dimensions']
+const threeFloorDimsArray = ['First/dimensions', 'Second/dimensions', 'Third/dimensions']
+
+
+switch(numFloors){
+  case 1:
+    callWithOneFloors(directory, oneFloorArray, oneFloorDimsArray)
+    break;
+  case 2:
+    callWithTwoFloors(directory, twoFloorArray, twoFloorDimsArray)
+    break;
+  case 1:
+    callWithOneFloors(directory, threeFloorArray, threeFloorDimsArray)
+    break;
+}
+
+
+// callWithTwoFloors(directory, twoFloorArray, twoFloorDimsArray)
 // callWithThreeFloors(directory, threeFloorArray)
 
 
