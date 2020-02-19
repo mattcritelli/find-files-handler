@@ -107,16 +107,16 @@ function callWithThreeFloors(directory, floorArray) {
   const whitelistOutputFloorTwo = sanitizeWhitelist(customRulesFloorTwo, floor_2);
   const whitelistOutputFloorThree = sanitizeWhitelist(customRulesFloorThree, floor_3);
 
-  console.log('\nWhitelists:');
-  console.log('\nfirst:', whitelistOutputFloorOne, ',');
-  console.log('second:', whitelistOutputFloorTwo, ',');
-  console.log('third:', whitelistOutputFloorThree);
-
+  console.log('\noptionsWhitelist: {');
+  console.log('\tfirst:', whitelistOutputFloorOne, ',');
+  console.log('\tsecond:', whitelistOutputFloorTwo, ',');
+  console.log('\tthird:', whitelistOutputFloorThree);
+  console.log('},');
   console.log('\nDimension Whitelists:');
-  console.log('\nfirst:', floorOneDimensions, ',');
-  console.log('\nsecond:', floorTwoDimensions, ',');
-  console.log('third:', floorThreeDimensions);
-
+  console.log('\tfirst:', floorOneDimensions, ',');
+  console.log('\tsecond:', floorTwoDimensions, ',');
+  console.log('\tthird:', floorThreeDimensions);
+  console.log('},');
   console.log('all Custom Rules:', util.inspect(customRulesFloorOne.concat(customRulesFloorTwo).concat(customRulesFloorThree), { showHidden: false, depth: null }));
 };
 
@@ -166,22 +166,14 @@ function callWithOneFloors(directory, floorArray, dimsArray) {
 //                                                                  //
 //////////////////////////////////////////////////////////////////////
 
-// OAKWOOD DIRECTORIES
-// const directory = 'Oakwood/167_2321/167_2321'
-// const directory = 'Oakwood/167_2322v2'
-// const directory = 'Oakwood/167_2323/167_2323v2Rev'
-// const directory = 'Oakwood/167_2324/167_2324'
-// const directory = 'Oakwood/167_2325/167_2325'
-// const directory = 'Oakwood/167_2325/167_2327'
-
 // SIGNATURE DIRECTORIES
-const modelName = 'Dallas';
+const modelName = 'Ash';
 const numFloors = 2;
-const directory = `Signature/${modelName}/`
+const directory = `Touchscreen/219-19344/`
 
-const oneFloorArray = ['First/opts']
-const twoFloorArray = ['First/opts', 'Second/opts']
-const threeFloorArray = ['First/opts', 'Second/opts', 'Third/opts']
+const oneFloorArray = ['floor_1']
+const twoFloorArray = ['floor_1', 'floor_2']
+const threeFloorArray = ['floor_1', 'floor_2', 'floor_3']
 
 const oneFloorDimsArray = ['First/dimensions']
 const twoFloorDimsArray = ['First/dimensions', 'Second/dimensions']
