@@ -13,11 +13,11 @@ function findFileNames(dirName, svgType) {
     ? fs.readdirSync(`${dirName}`)
         .map(filename => filename.replace(/-01.svg/, '')
       )
-        .filter(fn => fn !== '.ds_store')
+      .filter(fn => fn !== '.DS_Store')
     : fs.readdirSync(`${dirName}`)
     .map(filename => filename.replace(/_dim-01.svg/, '')
   )
-    .filter(fn => fn !== '.ds_store');
+      .filter(fn => fn !== '.DS_Store');
 }
 
 /* Automatically create custom rule objects */
@@ -90,74 +90,79 @@ function findAllSingleOptions(customRules, whitelist) {
 }
 
 function callWithThreeFloors(directory, floorArray) {
-  let floor_1 = findFileNames(`../${directory}/${floorArray[0]}`, 'option');
-  let floor_2 = findFileNames(`../${directory}/${floorArray[1]}`, 'option');
-  let floor_3 = findFileNames(`../${directory}/${floorArray[2]}`, 'option');
+  let floor_1 = findFileNames(`${directory}/${floorArray[0]}`, 'option');
+  let floor_2 = findFileNames(`${directory}/${floorArray[1]}`, 'option');
+  let floor_3 = findFileNames(`${directory}/${floorArray[2]}`, 'option');
+  // let floor_1 = findFileNames(`../${directory}/${floorArray[0]}`, 'option');
+  // let floor_2 = findFileNames(`../${directory}/${floorArray[1]}`, 'option');
+  // let floor_3 = findFileNames(`../${directory}/${floorArray[2]}`, 'option');
 
 
-  const floorOneDimensions = findFileNames(`../${directory}/${dimsArray[0]}`, 'dimension');
-  const floorTwoDimensions = findFileNames(`../${directory}/${dimsArray[1]}`, 'dimension');
-  const floorThreeDimensions = findFileNames(`../${directory}/${dimsArray[2]}`, 'dimension');
+  // const floorOneDimensions = findFileNames(`../${directory}/${dimsArray[0]}`, 'dimension');
+  // const floorTwoDimensions = findFileNames(`../${directory}/${dimsArray[1]}`, 'dimension');
+  // const floorThreeDimensions = findFileNames(`../${directory}/${dimsArray[2]}`, 'dimension');
 
-  const customRulesFloorOne = createCustomRules(floor_1, 1);
-  const customRulesFloorTwo = createCustomRules(floor_2, 2);
-  const customRulesFloorThree = createCustomRules(floor_3, 3);
+  const customRulesFloorOne = createCustomRules(floor_1, 0);
+  const customRulesFloorTwo = createCustomRules(floor_2, 1);
+  const customRulesFloorThree = createCustomRules(floor_3, 2);
 
   const whitelistOutputFloorOne = sanitizeWhitelist(customRulesFloorOne, floor_1);
   const whitelistOutputFloorTwo = sanitizeWhitelist(customRulesFloorTwo, floor_2);
   const whitelistOutputFloorThree = sanitizeWhitelist(customRulesFloorThree, floor_3);
 
   console.log('\noptionsWhitelist: {');
-  console.log('\tfirst:', whitelistOutputFloorOne, ',');
-  console.log('\tsecond:', whitelistOutputFloorTwo, ',');
-  console.log('\tthird:', whitelistOutputFloorThree);
+  console.log('\t0:', whitelistOutputFloorOne, ',');
+  console.log('\t1:', whitelistOutputFloorTwo, ',');
+  console.log('\t2:', whitelistOutputFloorThree);
   console.log('},');
-  console.log('\nDimension Whitelists:');
-  console.log('\tfirst:', floorOneDimensions, ',');
-  console.log('\tsecond:', floorTwoDimensions, ',');
-  console.log('\tthird:', floorThreeDimensions);
-  console.log('},');
-  console.log('all Custom Rules:', util.inspect(customRulesFloorOne.concat(customRulesFloorTwo).concat(customRulesFloorThree), { showHidden: false, depth: null }));
+  // console.log('\nDimension Whitelists:');
+  // console.log('\tfirst:', floorOneDimensions, ',');
+  // console.log('\tsecond:', floorTwoDimensions, ',');
+  // console.log('\tthird:', floorThreeDimensions);
+  // console.log('},');
+  console.log('customRules:', util.inspect(customRulesFloorOne.concat(customRulesFloorTwo).concat(customRulesFloorThree), { showHidden: false, depth: null }), ',');
 };
 
 function callWithTwoFloors(directory, floorArray, dimsArray) {
-  const floor_1 = findFileNames(`../${directory}/${floorArray[0]}`, 'option');
-  const floor_2 = findFileNames(`../${directory}/${floorArray[1]}`, 'option');
+  const floor_1 = findFileNames(`${directory}/${floorArray[0]}`, 'option');
+  const floor_2 = findFileNames(`${directory}/${floorArray[1]}`, 'option');
+  // const floor_1 = findFileNames(`../${directory}/${floorArray[0]}`, 'option');
+  // const floor_2 = findFileNames(`../${directory}/${floorArray[1]}`, 'option');
 
-  const floorOneDimensions = findFileNames(`../${directory}/${dimsArray[0]}`, 'dimension');
-  const floorTwoDimensions = findFileNames(`../${directory}/${dimsArray[1]}`, 'dimension');
+  // const floorOneDimensions = findFileNames(`../${directory}/${dimsArray[0]}`, 'dimension');
+  // const floorTwoDimensions = findFileNames(`../${directory}/${dimsArray[1]}`, 'dimension');
 
-  const customRulesFloorOne = createCustomRules(floor_1, 'first');
-  const customRulesFloorTwo = createCustomRules(floor_2, 'second');
+  const customRulesFloorOne = createCustomRules(floor_1, 0);
+  const customRulesFloorTwo = createCustomRules(floor_2, 1);
 
   const whitelistOutputFloorOne = sanitizeWhitelist(customRulesFloorOne, floor_1);
   const whitelistOutputFloorTwo = sanitizeWhitelist(customRulesFloorTwo, floor_2);
 
   console.log('\noptionsWhitelist: {');
-  console.log('\tfirst:', whitelistOutputFloorOne, ',');
-  console.log('\tsecond:', whitelistOutputFloorTwo);
+  console.log('0:', whitelistOutputFloorOne, ',');
+  console.log('1:', whitelistOutputFloorTwo);
   console.log('},');
-  console.log('dimensionsWhitelist: {');
-  console.log('\tfirst:', floorOneDimensions, ',');
-  console.log('\tsecond:', floorTwoDimensions);
-  console.log('},');
+  // console.log('dimensionsWhitelist: {');
+  // console.log('\tfirst:', floorOneDimensions, ',');
+  // console.log('\tsecond:', floorTwoDimensions);
+  // console.log('},');
   console.log('customRules:', util.inspect(customRulesFloorOne.concat(customRulesFloorTwo), { showHidden: false, depth: null }), ',');
 }
 
 
 function callWithOneFloors(directory, floorArray, dimsArray) {
   const floor_1 = findFileNames(`../${directory}/${floorArray[0]}`, 'option');
-  const floorOneDimensions = findFileNames(`../${directory}/${dimsArray[0]}`, 'dimension');
-  const customRulesFloorOne = createCustomRules(floor_1, 1);
+  // const floorOneDimensions = findFileNames(`../${directory}/${dimsArray[0]}`, 'dimension');
+  const customRulesFloorOne = createCustomRules(floor_1, 0);
   const whitelistOutputFloorOne = sanitizeWhitelist(customRulesFloorOne, floor_1);
 
   console.log('\nWhitelists:');
-  console.log('\nfirst:', whitelistOutputFloorOne)
+  console.log('\0:', whitelistOutputFloorOne)
 
-  console.log('\nDimension Whitelists:');
-  console.log('\nfirst:', floorOneDimensions);
+  // console.log('\nDimension Whitelists:');
+  // console.log('\nfirst:', floorOneDimensions);
 
-  console.log('\n\nall Custom Rules:', util.inspect(customRulesFloorOne, { showHidden: false, depth: null }));
+  console.log('customRules:', util.inspect(customRulesFloorOne, { showHidden: false, depth: null }));
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -169,7 +174,9 @@ function callWithOneFloors(directory, floorArray, dimsArray) {
 // SIGNATURE DIRECTORIES
 const modelName = 'Ash';
 const numFloors = 2;
-const directory = `Touchscreen/219-19344/`
+// const directory = `Touchscreen/229/991CO_2601/`
+// const directory = `~‎⁨/Macintosh HD⁩/Users⁩/matt⁩/Bimaire⁩/Denver CO Office - Touchscreen⁩/GVR East⁩/Meridian_229⁩/991CO_2601`
+const directory = `../../../../../Bimaire/Denver\ CO\ Office\ -\ Touchscreen/GVR\ East/Horizon_224/815_2565`
 
 const oneFloorArray = ['floor_1']
 const twoFloorArray = ['floor_1', 'floor_2']
@@ -187,8 +194,8 @@ switch(numFloors){
   case 2:
     callWithTwoFloors(directory, twoFloorArray, twoFloorDimsArray)
     break;
-  case 1:
-    callWithOneFloors(directory, threeFloorArray, threeFloorDimsArray)
+  case 3:
+    callWithThreeFloors(directory, threeFloorArray, threeFloorDimsArray)
     break;
 }
 
