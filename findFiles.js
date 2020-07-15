@@ -113,7 +113,8 @@ function callWithThreeFloors(directory, floorArray) {
   console.log('\noptionsWhitelist: {');
   console.log('\t0:', whitelistOutputFloorOne, ',');
   console.log('\t1:', whitelistOutputFloorTwo, ',');
-  console.log('\t2:', whitelistOutputFloorThree);
+  console.log('\t2:', whitelistOutputFloorThree, ',');
+  console.log('3: []');
   console.log('},');
   // console.log('\nDimension Whitelists:');
   // console.log('\tfirst:', floorOneDimensions, ',');
@@ -140,8 +141,10 @@ function callWithTwoFloors(directory, floorArray, dimsArray) {
 
   console.log('\noptionsWhitelist: {');
   console.log('0:', whitelistOutputFloorOne, ',');
-  console.log('1:', whitelistOutputFloorTwo);
+  console.log('1:', whitelistOutputFloorTwo, ',');
+  console.log('2: []');
   console.log('},');
+
   // console.log('dimensionsWhitelist: {');
   // console.log('\tfirst:', floorOneDimensions, ',');
   // console.log('\tsecond:', floorTwoDimensions);
@@ -151,13 +154,15 @@ function callWithTwoFloors(directory, floorArray, dimsArray) {
 
 
 function callWithOneFloors(directory, floorArray, dimsArray) {
-  const floor_1 = findFileNames(`../${directory}/${floorArray[0]}`, 'option');
+  const floor_1 = findFileNames(`${directory}/${floorArray[0]}`, 'option');
   // const floorOneDimensions = findFileNames(`../${directory}/${dimsArray[0]}`, 'dimension');
   const customRulesFloorOne = createCustomRules(floor_1, 0);
   const whitelistOutputFloorOne = sanitizeWhitelist(customRulesFloorOne, floor_1);
 
-  console.log('\nWhitelists:');
-  console.log('\0:', whitelistOutputFloorOne)
+  console.log('\noptionsWhitelist: {');
+  console.log('0:', whitelistOutputFloorOne, ',');
+  console.log('1: []');
+  console.log('},');
 
   // console.log('\nDimension Whitelists:');
   // console.log('\nfirst:', floorOneDimensions);
@@ -172,11 +177,13 @@ function callWithOneFloors(directory, floorArray, dimsArray) {
 //////////////////////////////////////////////////////////////////////
 
 // SIGNATURE DIRECTORIES
-const modelName = 'Ash';
-const numFloors = 2;
+// const modelName = 'Ash';
 // const directory = `Touchscreen/229/991CO_2601/`
-// const directory = `~‎⁨/Macintosh HD⁩/Users⁩/matt⁩/Bimaire⁩/Denver CO Office - Touchscreen⁩/GVR East⁩/Meridian_229⁩/991CO_2601`
-const directory = `../../../../../Bimaire/Denver\ CO\ Office\ -\ Touchscreen/GVR\ East/Horizon_224/815_2565`
+// const directory = `/Users/matt/Bimaire/Denver\ CO\ Office\ -\ Touchscreen/BLR/Sterling_220/1914_2572/1914/`
+// const directory = `/Users/matt/Bimaire/Denver\ CO\ Office\ -\ BLR/Horizon_215/811_2494`
+// const directory = `../../../../../Desktop/Retreat_227/791_2583/791/`
+const directory = `../../IFPTouchscreen/oakwood/Retreat_233/792_2585/`
+const numFloors = 3;
 
 const oneFloorArray = ['floor_1']
 const twoFloorArray = ['floor_1', 'floor_2']
