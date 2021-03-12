@@ -93,10 +93,6 @@ function callWithThreeFloors(directory, floorArray) {
   let floor_1 = findFileNames(`${directory}/${floorArray[0]}`, 'option');
   let floor_2 = findFileNames(`${directory}/${floorArray[1]}`, 'option');
   let floor_3 = findFileNames(`${directory}/${floorArray[2]}`, 'option');
-  // let floor_1 = findFileNames(`../${directory}/${floorArray[0]}`, 'option');
-  // let floor_2 = findFileNames(`../${directory}/${floorArray[1]}`, 'option');
-  // let floor_3 = findFileNames(`../${directory}/${floorArray[2]}`, 'option');
-
 
   // const floorOneDimensions = findFileNames(`../${directory}/${dimsArray[0]}`, 'dimension');
   // const floorTwoDimensions = findFileNames(`../${directory}/${dimsArray[1]}`, 'dimension');
@@ -127,8 +123,6 @@ function callWithThreeFloors(directory, floorArray) {
 function callWithTwoFloors(directory, floorArray, dimsArray) {
   const floor_1 = findFileNames(`${directory}/${floorArray[0]}`, 'option');
   const floor_2 = findFileNames(`${directory}/${floorArray[1]}`, 'option');
-  // const floor_1 = findFileNames(`../${directory}/${floorArray[0]}`, 'option');
-  // const floor_2 = findFileNames(`../${directory}/${floorArray[1]}`, 'option');
 
   // const floorOneDimensions = findFileNames(`../${directory}/${dimsArray[0]}`, 'dimension');
   // const floorTwoDimensions = findFileNames(`../${directory}/${dimsArray[1]}`, 'dimension');
@@ -156,7 +150,7 @@ function callWithTwoFloors(directory, floorArray, dimsArray) {
 function callWithOneFloors(directory, floorArray, dimsArray) {
   const floor_1 = findFileNames(`${directory}/${floorArray[0]}`, 'option');
   // const floorOneDimensions = findFileNames(`../${directory}/${dimsArray[0]}`, 'dimension');
-  const customRulesFloorOne = createCustomRules(floor_1, 0);
+  const customRulesFloorOne = createCustomRules(floor_1, 1);
   const whitelistOutputFloorOne = sanitizeWhitelist(customRulesFloorOne, floor_1);
 
   console.log('\noptionsWhitelist: {');
@@ -176,23 +170,21 @@ function callWithOneFloors(directory, floorArray, dimsArray) {
 //                                                                  //
 //////////////////////////////////////////////////////////////////////
 
-// SIGNATURE DIRECTORIES
-// const modelName = 'Ash';
-// const directory = `Touchscreen/229/991CO_2601/`
-// const directory = `/Users/matt/Bimaire/Denver\ CO\ Office\ -\ Touchscreen/BLR/Sterling_220/1914_2572/1914/`
-// const directory = `/Users/matt/Bimaire/Denver\ CO\ Office\ -\ BLR/Horizon_215/811_2494`
-// const directory = `../../../../../Desktop/Retreat_227/791_2583/791/`
-const directory = `../../IFPTouchscreen/oakwood/Retreat_233/792_2585/`
-const numFloors = 3;
+// IMAGE DIRECTORY
+const directory = `../../Floorplan/Arbor_Oct/867/`
+const numFloors = 1;
 
+
+// Array of floor folder names
 const oneFloorArray = ['floor_1']
 const twoFloorArray = ['floor_1', 'floor_2']
 const threeFloorArray = ['floor_1', 'floor_2', 'floor_3']
 
+
+// Only relevant if there are also dimension graphics - hasn't been used in 2 yeaars
 const oneFloorDimsArray = ['First/dimensions']
 const twoFloorDimsArray = ['First/dimensions', 'Second/dimensions']
 const threeFloorDimsArray = ['First/dimensions', 'Second/dimensions', 'Third/dimensions']
-
 
 switch(numFloors){
   case 1:
@@ -205,26 +197,3 @@ switch(numFloors){
     callWithThreeFloors(directory, threeFloorArray, threeFloorDimsArray)
     break;
 }
-
-
-// callWithTwoFloors(directory, twoFloorArray, twoFloorDimsArray)
-// callWithThreeFloors(directory, threeFloorArray)
-
-
-// ARBOR HOME DIRECTORIES
-
-// const directory = 'Arbor/Phase_2/199_872'
-// const directory = 'Arbor/Bradford(868)/199_868'
-// const directory = 'Arbor/Chestnut(869)/199_869'
-// const directory = 'Arbor/199_864-Cottonwood'
-// const directory = 'Arbor/199_872-Aspen/199_872'
-// const directory = 'Arbor/Phase_2/218/218/870/svg/std'
-
-// const oneFloorArray = ['floor_1']
-// const twoFloorArray = ['floor_1', 'floor_2']
-// const threeFloorArray = ['floor_1', 'floor_2', 'floor_3']
-
-
-// callWithOneFloors(directory, oneFloorArray)
-// callWithTwoFloors(directory, twoFloorArray)
-// callWithThreeFloors(directory, threeFloorArray)
